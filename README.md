@@ -1,2 +1,3 @@
 # PDP-11
-New_Project at C
+Проект эмулятора PDP-11 на языке C
+
