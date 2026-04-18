@@ -1,0 +1,8 @@
+*.bat
+*.sh
+*.exe
+*.dll
+*.static
+*.out
+*.o
+*.obj
