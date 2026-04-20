@@ -1,27 +1,21 @@
 #include <stdio.h>
 #include <assert.h>
 
-typedef unsigned char byte;
-typedef unsigned short int word;
-typedef word Adress;
+#include "read_w.h"
 
-#define MEMSIZE (64*1024)
-byte mem[MEMSIZE]; 
 
-void b_write (Adress adr, byte val); // пишем значение (байт) val по адресу adr;
-byte b_read (Adress adr); // читаем байт по адресу adr и возвращаем его;
-void w_write (Adress adr, word val); // пишем значение (слово) val по адресу adr;
-word w_read (Adress adr); // читаем слово по адресу adr и возвращаем его;
-void load_data();
-void mem_dump(Adress adr, int size);
+static byte mem[MEMSIZE]; 
+
 
 void test_mem();
 
-int main()
-{
-    test_mem();
-    return 0;
-}
+void reg_dump() {}
+
+// int main()
+// {
+//     test_mem();
+//     return 0;
+// }
 
 void b_write (Adress adr, byte val)
 {
