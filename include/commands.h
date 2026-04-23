@@ -1,7 +1,6 @@
 #pragma once
 
 #include "read_w.h"
-#include "registers.h"
 
 enum Argument 
 {                              //показываем количество аргументов
@@ -21,11 +20,6 @@ typedef struct        // определяем общую сборку каждо
 
 extern Command commands[];
 
-struct SSDD {
-    Adress adr;    // адрес аргумента
-    word val;       // значение аргумента
-};
-
 void do_halt(void);
 void do_add(void);
 void do_mov(void);
@@ -33,4 +27,3 @@ void do_unknown(void);
 void reg_dump();
 void run();
 
-extern struct SSDD ss, dd;

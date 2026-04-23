@@ -7,6 +7,13 @@ typedef unsigned char byte;
 typedef unsigned short int word;
 typedef word Adress;
 
+typedef struct{
+    Adress adr;    // адрес аргумента
+    word val;       // значение аргумента
+} SSDD;
+
+extern SSDD ss, dd;
+
 #define MEMSIZE (64*1024) 
 #define REGSIZE 8
 extern word reg[REGSIZE];

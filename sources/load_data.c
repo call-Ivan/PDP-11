@@ -3,8 +3,6 @@
 #include <stdlib.h>
 
 #include "read_w.h"
-#include "registers.h"
-
 
 // void load_file(const char * filename)
 // {
@@ -20,10 +18,8 @@
 // "%06o: %06o %04x" - адрес: восьмеричное_слово шестнадцатеричное_слово
 void load_data()
 {
-    
     unsigned int n = 0;
     Adress adr = 0;
-    
     // здесь я так понимаю в общем случае file откуда мы считываем значения
     // а в нашем из-за тестировочной системы - stdin
     while(2 == fscanf(stdin, "%hx%x", &adr, &n))
@@ -37,7 +33,6 @@ void load_data()
         }
     }
 }
-
 // "%06o: %06o %04x" - адрес: восьмеричное_слово шестнадцатеричное_слово
 void mem_dump(Adress adr, int size)
 {

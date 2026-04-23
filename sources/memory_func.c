@@ -3,8 +3,8 @@
 
 #include "read_w.h"
 
-
 static byte mem[MEMSIZE]; 
+word reg[REGSIZE];
 
 void test_mem();
 

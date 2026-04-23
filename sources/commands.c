@@ -4,15 +4,15 @@
 #include "commands.h"
 #include "logging.h" 
 #include "read_w.h"
-#include "registers.h"
+#include "get_mod.h"
 
-struct SSDD ss, dd;
+SSDD ss, dd;
 
 Command cmd[] =               // аргументы каждой функции
 {                     
 {0170000, 0060000, "add", do_add, HAS_SS | HAS_DD},
-{0170000, 010000, "mov",  do_mov, NO_ARGUMENTS},
-{0177777, 000000, "halt",  do_halt, HAS_SS | HAS_DD},
+{0170000, 010000, "mov",  do_mov, HAS_SS | HAS_DD},
+{0177777, 000000, "halt",  do_halt, NO_ARGUMENTS},
 
 {.mask=0, .opcode=0, .name="unknown",  do_unknown, .argument = NO_ARGUMENTS}
 };
@@ -60,6 +60,8 @@ void run ()
         {
             // logging(TRACE, "mov ");
             logging(TRACE, "%06o %06o : mov", pc, w);
+            ss = get_modereg(w >> 6);
+            dd = get_modereg(w);
             do_mov();
         }
 
@@ -67,6 +69,8 @@ void run ()
         {
             // logging(TRACE, "add ");
             logging(TRACE, "%06o %06o : add", pc, w);
+            ss = get_modereg(w >> 6);
+            dd = get_modereg(w);
             do_add();
         }
         // logging(TRACE, "%06o %06o", pc, w);
