@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "read_w.h"
+#include "registers.h"
 
 
 // void load_file(const char * filename)

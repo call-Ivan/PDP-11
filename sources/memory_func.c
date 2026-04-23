@@ -6,7 +6,6 @@
 
 static byte mem[MEMSIZE]; 
 
-
 void test_mem();
 
 void reg_dump() {}
@@ -100,8 +99,6 @@ void test_mem()
     fprintf(stderr, "a=%06o b1=%02hhx b0=%02hhx wres=%04x\n", a, b1, b0, wres);
     assert(w == wres);
     // тесты на границу массива, в функции w_write можно выйти за границу
-
-    
 
     // еще тесты
 }

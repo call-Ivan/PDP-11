@@ -8,6 +8,7 @@ tests/
 2_7_Task_load
 First_tsk
 Zero_task
+obj_files/
 
 # Игнорировать любые другие бинарные файлы (если появятся)
 *.exe

@@ -1,6 +1,14 @@
 #pragma once
 
 #include "read_w.h"
+#include "registers.h"
+
+enum Argument 
+{                              //показываем количество аргументов
+    NO_ARGUMENTS = 0,
+    HAS_SS = 1,
+    HAS_DD = 1 << 1
+};
 
 typedef struct        // определяем общую сборку каждой функции
 {
@@ -11,9 +19,18 @@ typedef struct        // определяем общую сборку каждо
     char argument;
 }Command;
 
-enum Argument 
-{                              //показываем количество аргументов
-    NO_ARGUMENTS = 0,
-    HAS_SS = 1,
-    HAS_DD = 1 << 1
+extern Command commands[];
+
+struct SSDD {
+    Adress adr;    // адрес аргумента
+    word val;       // значение аргумента
 };
+
+void do_halt(void);
+void do_add(void);
+void do_mov(void);
+void do_unknown(void);
+void reg_dump();
+void run();
+
+extern struct SSDD ss, dd;
