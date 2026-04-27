@@ -34,6 +34,7 @@ void load_data()
     }
 }
 // "%06o: %06o %04x" - адрес: восьмеричное_слово шестнадцатеричное_слово
+
 void mem_dump(Adress adr, int size)
 {
     printf("%s %d: adr=%06o %x size=%d\n", __FUNCTION__, __LINE__, adr, adr, size);

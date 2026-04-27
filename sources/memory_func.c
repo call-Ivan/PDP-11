@@ -28,6 +28,10 @@ byte b_read(Adress adr)
 
 void w_write (Adress adr, word val)
 {
+    if (adr < 8) {
+        reg[adr] = val;
+        return;
+    }
     assert(adr % 2 == 0);
     assert(adr + 1 < MEMSIZE);
     byte low_byte = val & 0xFF;
@@ -38,6 +42,9 @@ void w_write (Adress adr, word val)
 
 word w_read (Adress adr)
 {
+    if (adr < 8) {
+        return reg[adr];          // читаем из регистрового массива
+    }
     word w = mem[adr+1];
     w = w << 8;
     w = w | mem[adr];

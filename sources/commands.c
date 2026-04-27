@@ -8,18 +8,18 @@
 
 SSDD ss, dd;
 
-Command cmd[] =               // аргументы каждой функции
+Command commands[] =               // аргументы каждой функции
 {                     
-{0170000, 0060000, "add", do_add, HAS_SS | HAS_DD},
-{0170000, 010000, "mov",  do_mov, HAS_SS | HAS_DD},
-{0177777, 000000, "halt",  do_halt, NO_ARGUMENTS},
+{12, 006, "add", do_add, HAS_SS | HAS_DD},
+{12, 001, "mov",  do_mov, HAS_SS | HAS_DD},
+{0, 000000, "halt",  do_halt, NO_ARGUMENTS},
 
-{.mask=0, .opcode=0, .name="unknown",  do_unknown, .argument = NO_ARGUMENTS}
+{.shift=16, .opcode=0, .name="unknown",  do_unknown, .argument = NO_ARGUMENTS}
 };
 
 void do_halt()
 {
-    logging(TRACE, "THE END!!!\n");
+    logging(TRACE, "\nTHE END!!!\n");
     reg_dump(); // аналог моей функции
     exit(0);
 }
@@ -46,20 +46,31 @@ void run ()
     while(1)
     {
         word w = w_read(pc);
-        // word current_pc = pc;
-        // pc += 2;       // указываем на следующее неразобранное слово
+        logging(TRACE, "%06o %06o : ", pc, w);
+        pc += 2;       // указываем на следующее неразобранное слово
+        for(int i = 0; ; i++) {
+            Command cmd = commands[i];
+            if ((w >> cmd.shift) == cmd.opcode) {
+                logging(TRACE, "%s ", cmd.name);
+                if (cmd.argument & HAS_SS)
+                    ss = get_modereg(w >> 6);
+                if (cmd.argument & HAS_DD)
+                    dd = get_modereg(w);
 
-        if(w == 0)
+                cmd.do_command();
+                break;
+            }
+        }
+        /*
+        if((w >> 0) == 0)
         {
-            // logging(TRACE, "halt ");
-            logging(TRACE, "%06o %06o : halt", pc, w);
+            logging(TRACE, "halt ");
             do_halt();
         }
 
         else if( (w >> 12) == 001)
         {
-            // logging(TRACE, "mov ");
-            logging(TRACE, "%06o %06o : mov", pc, w);
+            logging(TRACE, "mov ");
             ss = get_modereg(w >> 6);
             dd = get_modereg(w);
             do_mov();
@@ -67,18 +78,18 @@ void run ()
 
         else if( (w >> 12) == 006)
         {
-            // logging(TRACE, "add ");
-            logging(TRACE, "%06o %06o : add", pc, w);
+            logging(TRACE, "add ");
             ss = get_modereg(w >> 6);
             dd = get_modereg(w);
             do_add();
         }
-        // logging(TRACE, "%06o %06o", pc, w);
         else
         {
-            logging(TRACE, "%06o %06o : unknown", pc, w);
+            logging(TRACE, "unknown");
             do_unknown();
         }
-        pc += 2;   
+        */
+        logging(TRACE, "\n");
+           
     }
 }

@@ -19,6 +19,7 @@ void test_parse_mov()
     assert(strcmp(cmd.name, "mov"));
     logging(TRACE, " ... OK\n");
 }
+
 // тест, что мы разобрали правильно аргументы ss и dd в mov R5, R3
 void test_mode0()
 {
@@ -32,6 +33,7 @@ void test_mode0()
     assert(dd.adr == 3);
     logging(TRACE, " ... OK\n");
 }
+
 // тест, что mov и мода 0 работают верно в mov R5, R3
 void test_mov()
 {

@@ -11,7 +11,7 @@ enum Argument
 
 typedef struct        // определяем общую сборку каждой функции
 {
-    word mask;
+    word shift;
     word opcode;
     char * name;
     void (*do_command)(void);

@@ -21,7 +21,5 @@ void logging(int level, const char * format, ...)
     
     va_start(ap, format);
     vfprintf(stderr ,format, ap);  // почти printf, но работает с va_list(формат с переменным числом аргументов)
-    fprintf(stderr, "\n");
-
     va_end(ap);
 }
