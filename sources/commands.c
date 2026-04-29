@@ -10,9 +10,11 @@ SSDD ss, dd;
 
 Command commands[] =               // аргументы каждой функции
 {                     
-{12, 006, "add", do_add, HAS_SS | HAS_DD},
+{12, 006, "add", do_add, HAS_SS | HAS_DD},   // я ниче тогда не понял, какое число где
 {12, 001, "mov",  do_mov, HAS_SS | HAS_DD},
 {0, 000000, "halt",  do_halt, NO_ARGUMENTS},
+{9, 077, "sob", do_sob, NO_ARGUMENTS},
+// {  ,       , "movb", do_movb, },
 
 {.shift=16, .opcode=0, .name="unknown",  do_unknown, .argument = NO_ARGUMENTS}
 };
@@ -39,6 +41,27 @@ void do_unknown()
     // exit(1)
 }
 
+void do_sob()
+{
+    word w = w_read(pc - 2);
+    int r = (w >> 6) & 7;  // 8-6 бит
+    word offset = w & 077;  // смещение числа 0-5 биты
+
+    reg[r]--;
+
+    if(reg[r] != 0)
+    {
+        pc = pc - 2*offset;
+    }
+}
+
+
+void do_movb()
+{
+
+
+
+}
 void run ()
 {
     pc = 01000;
