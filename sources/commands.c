@@ -14,7 +14,7 @@ Command commands[] =               // аргументы каждой функц
 {12, 001, "mov",  do_mov, HAS_SS | HAS_DD},
 {0, 000000, "halt",  do_halt, NO_ARGUMENTS},
 {9, 077, "sob", do_sob, NO_ARGUMENTS},
-// {  ,       , "movb", do_movb, },
+// {12,   , "movb", do_movb, HAS_SS | HAS_DD},
 
 {.shift=16, .opcode=0, .name="unknown",  do_unknown, .argument = NO_ARGUMENTS}
 };
@@ -56,12 +56,11 @@ void do_sob()
 }
 
 
-void do_movb()
-{
+// void do_movb()
+// {
+//     b_write(dd.adr, ss.val);
+// }
 
-
-
-}
 void run ()
 {
     pc = 01000;

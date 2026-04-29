@@ -24,7 +24,7 @@ extern Command commands[];
 void do_halt(void);
 void do_add(void);
 void do_mov(void);
-void do_movb(void);
+// void do_movb(void);
 void do_sob(void);
 void do_unknown(void);
 void reg_dump();

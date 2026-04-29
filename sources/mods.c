@@ -38,13 +38,32 @@ SSDD get_modereg(word w)
                 logging(TRACE, "(R%d)+ ", r);
             }
             break;
-        // case 3:
+             
+        case 3:        // третья мода, @(Rn)+ - косвенный автоинкремент
+            res.adr = w_read(reg[r]);
+            reg[r] += 2;
+            res.val = w_read(res.adr);
+            break;
+
+        case 4:         // четвертая мода, -(Rn) - автодекрементный режим
+            reg[r] -= 2;    
+            res.adr = reg[r];
+            res.val = w_read(res.adr);
             
+            // if(r == 7)
+            // {
+            //     logging(TRACE, "#%o ", res.val);
+            // }
             
-        // case 4:
+            // else
+            // {   
+            //     logging(TRACE, "(R%d)+ ", r);
+            // }                              // разве здесь не нужна проверка на R7 ?
+            break;
+        // case 5:         // пятая мода, 
+            
 
-
-
+        //     break;
 
         default:
             logging(ERROR,"\nMode %d not implemented yet!(\n", mode);
