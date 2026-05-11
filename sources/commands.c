@@ -6,15 +6,19 @@
 #include "read_w.h"
 #include "get_mod.h"
 
+int is_byte_op = 0; // 0 - слово, 1 - байт
+
 SSDD ss, dd;
 
 Command commands[] =               // аргументы каждой функции
 {                     
 {12, 006, "add", do_add, HAS_SS | HAS_DD},   // я ниче тогда не понял, какое число где
 {12, 001, "mov",  do_mov, HAS_SS | HAS_DD},
-{0, 000000, "halt",  do_halt, NO_ARGUMENTS},
+{0, 000, "halt",  do_halt, NO_ARGUMENTS},
 {9, 077, "sob", do_sob, NO_ARGUMENTS},
-// {12,   , "movb", do_movb, HAS_SS | HAS_DD},
+{12, 011, "movb", do_movb, HAS_SS | HAS_DD},
+// 01SSDD = 0 001 XXX XXX XXX XXX mov >> 12 == 001
+// 11SSDD = 1 001 XXX XXX XXX XXX movb >> 12 == 011  0011
 
 {.shift=16, .opcode=0, .name="unknown",  do_unknown, .argument = NO_ARGUMENTS}
 };
@@ -35,7 +39,10 @@ void do_mov()
 {
     w_write(dd.adr, ss.val);
 }
-
+void do_movb()
+{
+    b_write(dd.adr, ss.val);
+}
 void do_unknown()
 {
     // exit(1)
@@ -56,10 +63,7 @@ void do_sob()
 }
 
 
-// void do_movb()
-// {
-//     b_write(dd.adr, ss.val);
-// }
+
 
 void run ()
 {
@@ -70,6 +74,7 @@ void run ()
         word w = w_read(pc);
         logging(TRACE, "%06o %06o : ", pc, w);
         pc += 2;       // указываем на следующее неразобранное слово
+        is_byte_op = w >> 15 & 1;
         for(int i = 0; ; i++) {
             Command cmd = commands[i];
             if ((w >> cmd.shift) == cmd.opcode) {
@@ -112,6 +117,7 @@ void run ()
         }
         */
         logging(TRACE, "\n");
+        // reg_dump(); // смотрим на регистры
            
     }
 }

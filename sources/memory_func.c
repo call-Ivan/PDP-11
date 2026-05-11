@@ -2,13 +2,27 @@
 #include <assert.h>
 
 #include "read_w.h"
+#include "logging.h"
 
 static byte mem[MEMSIZE]; 
 word reg[REGSIZE];
 
 void test_mem();
 
-void reg_dump() {}
+void reg_dump()
+{
+    logging(TRACE, "-------------------------------\n");
+    logging(TRACE, "r0=%06o ", reg[0]);
+    logging(TRACE, "r2=%06o ", reg[2]);
+    logging(TRACE, "r4=%06o ", reg[4]);
+    logging(TRACE, "sp=%06o ", reg[6]);
+    logging(TRACE, "\n");
+    logging(TRACE, "r1=%06o ", reg[1]);
+    logging(TRACE, "r3=%06o ", reg[3]);
+    logging(TRACE, "r5=%06o ", reg[5]);
+    logging(TRACE, "pc=%06o ", reg[7]);
+    logging(TRACE, "\n");
+}
 
 // int main()
 // {
@@ -18,11 +32,24 @@ void reg_dump() {}
 
 void b_write (Adress adr, byte val)
 {
-    mem[adr] = val;
+    if (adr < 8) 
+    {
+        // знаковое расширение
+        byte sign_bit = (val >> 7) & 1;
+        if (sign_bit == 0) {
+            reg[adr] = val & 0xFF;
+        } else {
+            reg[adr] = ~0xFF | val;
+        }
+    }
+    mem[adr] = val; 
 }
 
 byte b_read(Adress adr)
 {
+    if (adr < 8) {
+        return reg[adr] & 0xFF;
+    }
     return mem[adr];
 }
 
